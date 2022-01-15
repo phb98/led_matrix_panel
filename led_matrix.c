@@ -44,8 +44,7 @@ void led_matrix_init()
   for(int i = 0; i < 32; i++){
     frame_buffer[i] = i;
     frame_buffer[32+i] = 31-i;
-    frame_buffer[128+i] = 31-i;
-
+    frame_buffer[480+i] = i;
   }
 }
 
@@ -134,7 +133,9 @@ static uint16_t led_matrix_frame_to_sub_row_buff(led_matrix_pixel_t * frame_buff
       sub_row_buff[sub_row_buff_idx] = 0;
       for(int bit = 0; bit < BITS_PER_SUB_ROW_BUFF; bit++)
       {
-        sub_row_buff[sub_row_buff_idx] |= (((frame_buff[COOR_TO_ABS_POS(row_idx, (col_idx+bit))] >> bit_pos) & 0x1) << bit);
+        //sub_row_buff[sub_row_buff_idx] |= (((frame_buff[COOR_TO_ABS_POS(row_idx, (col_idx+bit))] >> bit_pos) & 0x1) << bit);
+        // if you want to mirror image around vertical axis, uncomment above line and comment below line
+        sub_row_buff[sub_row_buff_idx] |= (((frame_buff[COOR_TO_ABS_POS(row_idx, (LM_CONFIG_COL - 1 - col_idx - bit))] >> bit_pos) & 0x1) << bit);
       }
       sub_row_buff_idx++;
     }

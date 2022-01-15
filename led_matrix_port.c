@@ -60,8 +60,9 @@ void led_matrix_set_cs(led_matrix_cs_t cs)
 }
 void led_matrix_set_sub_row(uint8_t sub_row)
 {
+  sub_row = ~sub_row;
   uint32_t write_val = ((GPIO_PORT->ODR) & ~(SUB_ROW_PORT_BIT_MASK));
-  GPIO_PORT->ODR = write_val | (sub_row << A_PIN);
+  GPIO_PORT->ODR = write_val | ((sub_row << A_PIN) & SUB_ROW_PORT_BIT_MASK);
 }
 void led_matrix_prepare_transmit()
 {
